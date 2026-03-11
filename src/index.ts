@@ -45,6 +45,26 @@ import { ListJournalEntriesTool } from "./tools/list-journal-entries.tool.js";
 import { GetJournalEntryTool } from "./tools/get-journal-entry.tool.js";
 import { CreateJournalEntryTool } from "./tools/create-journal-entry.tool.js";
 
+// Payment tools (AR)
+import { ListPaymentsTool } from "./tools/list-payments.tool.js";
+import { GetPaymentTool } from "./tools/get-payment.tool.js";
+import { CreatePaymentTool } from "./tools/create-payment.tool.js";
+
+// Vendor Payment tools (AP)
+import { ListVendorPaymentsTool } from "./tools/list-vendor-payments.tool.js";
+import { GetVendorPaymentTool } from "./tools/get-vendor-payment.tool.js";
+import { CreateVendorPaymentTool } from "./tools/create-vendor-payment.tool.js";
+
+// Credit Memo tools (AR)
+import { ListCreditMemosTool } from "./tools/list-credit-memos.tool.js";
+import { GetCreditMemoTool } from "./tools/get-credit-memo.tool.js";
+import { CreateCreditMemoTool } from "./tools/create-credit-memo.tool.js";
+
+// Sales Receipt tools (AR)
+import { ListSalesReceiptsTool } from "./tools/list-sales-receipts.tool.js";
+import { GetSalesReceiptTool } from "./tools/get-sales-receipt.tool.js";
+import { CreateSalesReceiptTool } from "./tools/create-sales-receipt.tool.js";
+
 const main = async () => {
     const server = KikoBooksMCPServer.GetServer();
 
@@ -88,6 +108,26 @@ const main = async () => {
     RegisterTool(server, ListJournalEntriesTool);
     RegisterTool(server, GetJournalEntryTool);
     RegisterTool(server, CreateJournalEntryTool);
+
+    // Customer Payments (AR)
+    RegisterTool(server, ListPaymentsTool);
+    RegisterTool(server, GetPaymentTool);
+    RegisterTool(server, CreatePaymentTool);
+
+    // Vendor Payments (AP)
+    RegisterTool(server, ListVendorPaymentsTool);
+    RegisterTool(server, GetVendorPaymentTool);
+    RegisterTool(server, CreateVendorPaymentTool);
+
+    // Credit Memos (AR)
+    RegisterTool(server, ListCreditMemosTool);
+    RegisterTool(server, GetCreditMemoTool);
+    RegisterTool(server, CreateCreditMemoTool);
+
+    // Sales Receipts (AR)
+    RegisterTool(server, ListSalesReceiptsTool);
+    RegisterTool(server, GetSalesReceiptTool);
+    RegisterTool(server, CreateSalesReceiptTool);
 
     // Connect to transport
     const transport = new StdioServerTransport();
