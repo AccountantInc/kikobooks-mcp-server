@@ -27,7 +27,7 @@ npm install
 
 2. Create a `.env` file (copy from `.env.example`):
 ```env
-KIKOBOOKS_BASE_URL=https://dev-kiko.azurewebsites.net
+KIKOBOOKS_BASE_URL=https://mcp.kikobooks.com
 KIKOBOOKS_API_KEY=your_api_key_here
 ```
 
@@ -49,7 +49,7 @@ Add to your `claude_desktop_config.json`:
       "command": "npx",
       "args": ["-y", "@kikobooks/kikobooks-mcp-server@latest"],
       "env": {
-        "KIKOBOOKS_BASE_URL": "https://dev-kiko.azurewebsites.net",
+        "KIKOBOOKS_BASE_URL": "https://mcp.kikobooks.com",
         "KIKOBOOKS_API_KEY": "your_api_key_here"
       }
     }
@@ -68,7 +68,7 @@ Add to `.vscode/mcp.json` in your project:
       "command": "npx",
       "args": ["-y", "@kikobooks/kikobooks-mcp-server@latest"],
       "env": {
-        "KIKOBOOKS_BASE_URL": "https://dev-kiko.azurewebsites.net",
+        "KIKOBOOKS_BASE_URL": "https://mcp.kikobooks.com",
         "KIKOBOOKS_API_KEY": "your_api_key_here"
       }
     }
@@ -87,7 +87,7 @@ For local development, point to the built output:
       "command": "node",
       "args": ["C:/Apps/kikobooks-mcp-server/dist/index.js"],
       "env": {
-        "KIKOBOOKS_BASE_URL": "https://dev-kiko.azurewebsites.net",
+        "KIKOBOOKS_BASE_URL": "https://mcp.kikobooks.com",
         "KIKOBOOKS_API_KEY": "your_api_key_here"
       }
     }

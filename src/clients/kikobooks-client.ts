@@ -20,7 +20,7 @@ class KikoBooksClient {
         if (!baseUrl) {
             throw new Error(
                 "KIKOBOOKS_BASE_URL environment variable is required. " +
-                "Example: https://dev-kiko.azurewebsites.net"
+                "Example: https://mcp.kikobooks.com"
             );
         }
         this.baseUrl = baseUrl.replace(/\/+$/, ""); // Remove trailing slashes
@@ -239,6 +239,39 @@ class KikoBooksClient {
         }
 
         return response.json();
+    }
+
+    /**
+     * Make an authenticated DELETE request to the KikoBooks API.
+     */
+    async delete<T = any>(path: string): Promise<T> {
+        await this.authenticate();
+
+        const response = await fetch(`${this.baseUrl}${path}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+                "Content-Type": "application/json",
+                "User-Agent": "kikobooks-mcp-server/0.1.0",
+            },
+        });
+
+        if (!response.ok) {
+            const error = new Error(`API request failed: ${path}`) as any;
+            error.status = response.status;
+            error.statusText = response.statusText;
+            try {
+                error.body = await response.json();
+            } catch {
+                error.body = await response.text();
+            }
+            throw error;
+        }
+
+        // Some DELETE endpoints return 204 No Content
+        const text = await response.text();
+        if (!text) return { success: true } as T;
+        return JSON.parse(text);
     }
 }
 
