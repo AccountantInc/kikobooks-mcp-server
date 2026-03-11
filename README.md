@@ -4,13 +4,18 @@ A [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server for [K
 
 ## Features
 
-- **Chart of Accounts** — List, get, create, and update GL accounts
-- **Customers** — Full CRUD for customer management
-- **Invoices** — Create, search, and manage AR invoices
+- **Chart of Accounts** — Search, get, create, and update GL accounts
+- **Customers** — Full CRUD with soft delete for customer management
+- **Invoices** — Search, create, and manage AR invoices
 - **Items** — Manage products and services
-- **Vendors** — Full CRUD for vendor management
-- **Bills** — Create, search, and manage AP bills
-- **Journal Entries** — List, view, and create GL journal entries
+- **Vendors** — Full CRUD with soft delete for vendor management
+- **Bills** — Full CRUD with soft delete for AP bills
+- **Journal Entries** — Search, create, post, and reverse GL journal entries
+- **Bill Payments** — Search, create, and delete AP payments
+- **Purchases / Expenses** — Full CRUD with delete for expense transactions
+- **Customer Payments** — Search, create, and manage AR payments
+- **Credit Memos** — Search, create, and manage AR credit memos
+- **Sales Receipts** — Search, create, and manage sales receipts
 
 ## Prerequisites
 
@@ -95,12 +100,12 @@ For local development, point to the built output:
 }
 ```
 
-## Available Tools
+## Available Tools (50 total)
 
 ### Chart of Accounts
 | Tool | Description |
 |------|-------------|
-| `list_accounts` | List accounts with filtering by category, type, and search |
+| `search_accounts` | Search accounts with filtering by category, type, and text |
 | `get_account` | Get full account details by ID |
 | `create_account` | Create a new GL account |
 | `update_account` | Update an existing account |
@@ -108,15 +113,16 @@ For local development, point to the built output:
 ### Customers
 | Tool | Description |
 |------|-------------|
-| `list_customers` | List customers with search and pagination |
+| `search_customers` | Search customers with text search and pagination |
 | `get_customer` | Get full customer details by ID |
 | `create_customer` | Create a new customer |
 | `update_customer` | Update an existing customer |
+| `delete_customer` | Soft delete (deactivate) a customer |
 
 ### Invoices
 | Tool | Description |
 |------|-------------|
-| `list_invoices` | List invoices with status, customer, date, and overdue filters |
+| `search_invoices` | Search invoices with status, customer, date, and overdue filters |
 | `get_invoice` | Get full invoice details including line items and payments |
 | `create_invoice` | Create a new invoice with line items |
 | `update_invoice` | Update an existing invoice |
@@ -124,7 +130,7 @@ For local development, point to the built output:
 ### Items (Products/Services)
 | Tool | Description |
 |------|-------------|
-| `list_items` | List products and services |
+| `search_items` | Search products and services |
 | `get_item` | Get item details including pricing |
 | `create_item` | Create a new product or service |
 | `update_item` | Update an existing item |
@@ -132,25 +138,67 @@ For local development, point to the built output:
 ### Vendors
 | Tool | Description |
 |------|-------------|
-| `list_vendors` | List vendors with search |
+| `search_vendors` | Search vendors with text search |
 | `get_vendor` | Get full vendor details |
 | `create_vendor` | Create a new vendor |
 | `update_vendor` | Update an existing vendor |
+| `delete_vendor` | Soft delete (deactivate) a vendor |
 
 ### Bills (Accounts Payable)
 | Tool | Description |
 |------|-------------|
-| `list_bills` | List bills with status, vendor, date, and overdue filters |
+| `search_bills` | Search bills with status, vendor, date, and overdue filters |
 | `get_bill` | Get full bill details including line items |
 | `create_bill` | Create a new bill |
 | `update_bill` | Update an existing bill |
+| `delete_bill` | Soft delete (deactivate) a bill |
 
 ### Journal Entries
 | Tool | Description |
 |------|-------------|
-| `list_journal_entries` | List entries with date, source, and posted filters |
+| `search_journal_entries` | Search entries with date, source, and posted filters |
 | `get_journal_entry` | Get full entry with debit/credit lines |
 | `create_journal_entry` | Create a manual journal entry (debits must equal credits) |
+| `post_journal_entry` | Post a draft journal entry to the ledger |
+| `reverse_journal_entry` | Reverse a posted journal entry |
+
+### Bill Payments (Accounts Payable)
+| Tool | Description |
+|------|-------------|
+| `search_bill_payments` | Search bill payments with vendor.and date filters |
+| `get_bill_payment` | Get full bill payment details |
+| `create_bill_payment` | Create a new bill payment |
+| `delete_bill_payment` | Delete a bill payment |
+
+### Purchases / Expenses
+| Tool | Description |
+|------|-------------|
+| `search_purchases` | Search expense transactions with filters |
+| `get_purchase` | Get full expense/purchase details |
+| `create_purchase` | Create a new expense/purchase |
+| `update_purchase` | Update an existing expense/purchase |
+| `delete_purchase` | Delete an expense/purchase |
+
+### Customer Payments (AR)
+| Tool | Description |
+|------|-------------|
+| `search_payments` | Search AR payments with customer and date filters |
+| `get_payment` | Get full payment details |
+| `create_payment` | Record a customer payment |
+
+### Credit Memos (AR)
+| Tool | Description |
+|------|-------------|
+| `search_credit_memos` | Search credit memos with filters |
+| `get_credit_memo` | Get full credit memo details |
+| `create_credit_memo` | Create a new credit memo |
+
+### Sales Receipts
+| Tool | Description |
+|------|-------------|
+| `search_sales_receipts` | Search sales receipts with filters |
+| `get_sales_receipt` | Get full sales receipt details |
+| `create_sales_receipt` | Create a new sales receipt |
 
 ## Authentication
 
@@ -194,19 +242,21 @@ npm run lint
 
 ```
 src/
-├── index.ts                 # Entry point — registers all tools
+├── index.ts                 # Entry point — registers all 50 tools
 ├── clients/
-│   └── kikobooks-client.ts  # HTTP client with JWT auth
+│   └── kikobooks-client.ts  # HTTP client with JWT auth (get/post/put/delete)
 ├── server/
 │   └── kikobooks-mcp-server.ts  # MCP server singleton
 ├── tools/                   # Tool definitions (schema + handler glue)
-│   ├── list-accounts.tool.ts
+│   ├── search-accounts.tool.ts
 │   ├── create-invoice.tool.ts
-│   └── ...
+│   ├── delete-customer.tool.ts
+│   └── ... (50 files)
 ├── handlers/                # Business logic (calls API client)
-│   ├── list-kikobooks-accounts.handler.ts
+│   ├── search-kikobooks-accounts.handler.ts
 │   ├── create-kikobooks-invoice.handler.ts
-│   └── ...
+│   ├── delete-kikobooks-customer.handler.ts
+│   └── ... (50 files)
 ├── helpers/                 # Utilities
 │   ├── register-tool.ts
 │   └── format-error.ts
@@ -217,12 +267,11 @@ src/
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for the full implementation plan spanning 5 phases:
-- **Phase 1** ✅ Core Accounting (27 tools)
-- **Phase 2** Payments & Credit (16 tools)
-- **Phase 3** Banking & Reconciliation (7 tools)
-- **Phase 4** Reports & Analytics (6 tools)
-- **Phase 5** Advanced Features (12 tools)
+See [ROADMAP.md](ROADMAP.md) for the full implementation plan:
+- **Phase 1** ✅ Core Bookkeeping (50 tools across 12 entities)
+- **Phase 2** Banking & Reconciliation
+- **Phase 3** Reports & Analytics
+- **Phase 4** Advanced Features
 
 ## License
 
