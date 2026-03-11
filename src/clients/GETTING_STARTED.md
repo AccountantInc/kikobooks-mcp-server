@@ -18,7 +18,7 @@
 Create a `.env` file in the root directory (copy from `.env.example`):
 
 ```env
-KIKOBOOKS_BASE_URL=https://dev-kiko.azurewebsites.net
+KIKOBOOKS_BASE_URL=https://mcp.kikobooks.com
 KIKOBOOKS_API_KEY=your_api_key_here
 ```
 
