@@ -71,46 +71,35 @@ This is **your public/external MCP server** for third-party AI integrations.
 
 ## Entity & Tool Inventory
 
-### Phase 1 — Core Accounting (MVP)
-*The essentials that every bookkeeping AI agent needs.*
+### Phase 1 — Core Bookkeeping ✅ (50 tools — COMPLETE)
+*All bookkeeping tools an AI agent needs.*
 
 | Entity | Tools | KikoBooks API Endpoints |
 |--------|-------|------------------------|
-| **Chart of Accounts** | `list_accounts`, `get_account`, `create_account`, `update_account` | `GET /api/GL/Accounts`, `GET /api/GL/Accounts/{id}` |
-| **Customers** | `list_customers`, `get_customer`, `create_customer`, `update_customer` | `GET /api/Customers`, `GET /api/Customers/{id}` |
-| **Invoices** | `list_invoices`, `get_invoice`, `create_invoice`, `update_invoice` | `GET /api/Invoices`, `GET /api/Invoices/{id}` |
-| **Items** | `list_items`, `get_item`, `create_item`, `update_item` | `GET /api/Items`, `GET /api/Items/{id}` |
-| **Vendors** | `list_vendors`, `get_vendor`, `create_vendor`, `update_vendor` | `GET /api/Vendors`, `GET /api/Vendors/{id}` |
-| **Bills** | `list_bills`, `get_bill`, `create_bill`, `update_bill` | `GET /api/Bills`, `GET /api/Bills/{id}` |
-| **Journal Entries** | `list_journal_entries`, `get_journal_entry`, `create_journal_entry` | `GET /api/GeneralLedger/journal-entries` |
+| **Chart of Accounts** | `search_accounts`, `get_account`, `create_account`, `update_account` | `/api/GL/Accounts` |
+| **Customers** | `search_customers`, `get_customer`, `create_customer`, `update_customer`, `delete_customer` | `/api/Customers` |
+| **Invoices** | `search_invoices`, `get_invoice`, `create_invoice`, `update_invoice` | `/api/Invoices` |
+| **Items** | `search_items`, `get_item`, `create_item`, `update_item` | `/api/Items` |
+| **Vendors** | `search_vendors`, `get_vendor`, `create_vendor`, `update_vendor`, `delete_vendor` | `/api/Vendors` |
+| **Bills** | `search_bills`, `get_bill`, `create_bill`, `update_bill`, `void_bill` | `/api/Bills` |
+| **Journal Entries** | `search_journal_entries`, `get_journal_entry`, `create_journal_entry`, `post_journal_entry`, `reverse_journal_entry` | `/api/GeneralLedger/journal-entries` |
+| **Bill Payments** | `search_bill_payments`, `get_bill_payment`, `create_bill_payment`, `void_bill_payment` | `/api/VendorPayments` |
+| **Purchases/Expenses** | `search_purchases`, `get_purchase`, `create_purchase`, `update_purchase`, `delete_purchase` | `/api/Expenses` |
+| **Customer Payments** | `search_payments`, `get_payment`, `create_payment` | `/api/Payments` |
+| **Credit Memos** | `search_credit_memos`, `get_credit_memo`, `create_credit_memo` | `/api/CreditMemos` |
+| **Sales Receipts** | `search_sales_receipts`, `get_sales_receipt`, `create_sales_receipt` | `/api/SalesReceipts` |
 
-**Phase 1 Total: ~28 tools across 7 entities**
+**Phase 1 Total: 50 tools across 12 entities**
 
-### Phase 2 — Payments & Credit
-*Completing the AR/AP cycle.*
-
-| Entity | Tools |
-|--------|-------|
-| **Customer Payments** | `list_payments`, `get_payment`, `create_payment` |
-| **Vendor Payments** | `list_vendor_payments`, `get_vendor_payment`, `create_vendor_payment` |
-| **Credit Memos** | `list_credit_memos`, `get_credit_memo`, `create_credit_memo` |
-| **Sales Receipts** | `list_sales_receipts`, `get_sales_receipt`, `create_sales_receipt` |
-
-**Phase 2 Total: ~16 tools across 4 entities**
-
-### Phase 3 — Banking & Reconciliation
-*Bank feeds and matching.*
+### Phase 2 — Banking & Reconciliation (planned)
 
 | Entity | Tools |
 |--------|-------|
-| **Bank Accounts** | `list_bank_accounts`, `get_bank_account` |
-| **Bank Transactions** | `list_bank_transactions`, `get_bank_transaction` |
+| **Bank Accounts** | `search_bank_accounts`, `get_bank_account` |
+| **Bank Transactions** | `search_bank_transactions`, `get_bank_transaction` |
 | **Reconciliation** | `get_reconciliation_status` |
 
-**Phase 3 Total: ~7 tools across 3 entities**
-
-### Phase 4 — Reports & Analytics
-*Financial statements and dashboards.*
+### Phase 3 — Reports & Analytics (planned)
 
 | Entity | Tools |
 |--------|-------|
@@ -121,23 +110,15 @@ This is **your public/external MCP server** for third-party AI integrations.
 | **AP Aging** | `get_ap_aging` |
 | **Dashboard** | `get_insights_dashboard` |
 
-**Phase 4 Total: ~6 tools**
-
-### Phase 5 — Advanced Features
-*CRM, payroll, fixed assets, recurring transactions.*
+### Phase 4 — Advanced Features (planned)
 
 | Entity | Tools |
 |--------|-------|
-| **Deposits** | `list_deposits`, `create_deposit` |
-| **Fixed Assets** | `list_fixed_assets`, `get_fixed_asset` |
-| **Recurring Invoices** | `list_recurring_invoices` |
-| **Recurring Bills** | `list_recurring_bills` |
-| **CRM Contacts** | `list_crm_contacts`, `get_crm_contact` |
+| **Deposits** | `search_deposits`, `create_deposit` |
+| **Fixed Assets** | `search_fixed_assets`, `get_fixed_asset` |
+| **Recurring Invoices** | `search_recurring_invoices` |
+| **Recurring Bills** | `search_recurring_bills` |
 | **Organization** | `get_organization_details` |
-
-**Phase 5 Total: ~12 tools**
-
-### Grand Total: ~69 tools across 5 phases
 
 ---
 
@@ -196,18 +177,18 @@ kikobooks-mcp-server/
 │   ├── server/
 │   │   └── kikobooks-mcp-server.ts # MCP server singleton
 │   ├── tools/
-│   │   ├── list-accounts.tool.ts
+│   │   ├── search-accounts.tool.ts
 │   │   ├── get-account.tool.ts
 │   │   ├── create-account.tool.ts
 │   │   ├── update-account.tool.ts
-│   │   ├── list-customers.tool.ts
-│   │   ├── ... (one file per tool)
-│   │   └── get-ap-aging.tool.ts
+│   │   ├── search-customers.tool.ts
+│   │   ├── ... (one file per tool, 50 total)
+│   │   └── create-sales-receipt.tool.ts
 │   ├── handlers/
-│   │   ├── list-kikobooks-accounts.handler.ts
+│   │   ├── search-kikobooks-accounts.handler.ts
 │   │   ├── get-kikobooks-account.handler.ts
-│   │   ├── ... (one file per handler)
-│   │   └── get-kikobooks-ap-aging.handler.ts
+│   │   ├── ... (one file per handler, 50 total)
+│   │   └── create-kikobooks-sales-receipt.handler.ts
 │   ├── helpers/
 │   │   ├── register-tool.ts
 │   │   └── format-error.ts
@@ -262,12 +243,11 @@ Once published, users will configure it like this:
 
 | Phase | Scope | Tools |
 |-------|-------|-------|
-| **Phase 0** | Project scaffold, client, auth, server setup | 0 |
-| **Phase 1** | Core Accounting (Accounts, Customers, Vendors, Invoices, Bills, Items, Journal Entries) | 28 |
-| **Phase 2** | Payments & Credit (AR/AP Payments, Credit Memos, Sales Receipts) | 16 |
-| **Phase 3** | Banking (Bank Accounts, Transactions, Reconciliation) | 7 |
-| **Phase 4** | Reports (P&L, Balance Sheet, Trial Balance, Aging) | 6 |
-| **Phase 5** | Advanced (Fixed Assets, Recurring, CRM, Org Details) | 12 |
+| **Phase 0** ✅ | Project scaffold, client, auth, server setup | 0 |
+| **Phase 1** ✅ | Core Bookkeeping (12 entities: Accounts, Customers, Vendors, Items, Invoices, Bills, Journal Entries, Bill Payments, Purchases, Payments, Credit Memos, Sales Receipts) | 50 |
+| **Phase 2** | Banking (Bank Accounts, Transactions, Reconciliation) | TBD |
+| **Phase 3** | Reports (P&L, Balance Sheet, Trial Balance, Aging) | TBD |
+| **Phase 4** | Advanced (Fixed Assets, Recurring, Org Details) | TBD |
 
 ---
 
@@ -301,8 +281,8 @@ Once published, users will configure it like this:
 1. ✅ Analyze reference implementations
 2. ✅ Analyze KikoBooks API structure
 3. ✅ Create this roadmap
-4. 🔲 Scaffold Phase 0 (project setup, client, server, types, helpers)
-5. 🔲 Implement Phase 1 tools (28 tools for core accounting)
+4. ✅ Scaffold Phase 0 (project setup, client, server, types, helpers)
+5. ✅ Implement Phase 1 tools (50 tools for core bookkeeping)
 6. 🔲 Test with Claude Desktop / VS Code
 7. 🔲 Publish to npm as `@kikobooks/kikobooks-mcp-server`
 8. 🔲 Submit to MCP server directories
