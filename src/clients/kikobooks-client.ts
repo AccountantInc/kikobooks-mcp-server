@@ -97,19 +97,31 @@ class KikoBooksClient {
         }
 
         const data = await response.json();
-        this.setTokens(data);
+
+        // KikoBooks wraps responses in ValueDataResponse { isSuccess, response: { ... } }
+        if (data.isSuccess === false) {
+            throw new Error(
+                `Authentication failed: ${data.endUserMessage || "Invalid API key"}`
+            );
+        }
+
+        const tokenData = data.response || data;
+        this.setTokens(tokenData);
     }
 
     /**
      * Refresh an expired access token using the refresh token.
      */
     private async refreshAccessToken(): Promise<void> {
-        const response = await fetch(`${this.baseUrl}/api/Auth/refresh`, {
+        const response = await fetch(`${this.baseUrl}/api/Token/refreshToken`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ refreshToken: this.refreshToken }),
+            body: JSON.stringify({
+                token: this.accessToken,
+                refreshToken: this.refreshToken,
+            }),
         });
 
         if (!response.ok) {
@@ -125,7 +137,8 @@ class KikoBooksClient {
         }
 
         const data = await response.json();
-        this.setTokens(data);
+        const tokenData = data.response || data;
+        this.setTokens(tokenData);
     }
 
     private setTokens(data: any): void {
@@ -133,8 +146,15 @@ class KikoBooksClient {
         this.refreshToken =
             data.refreshToken || data.refresh_token || this.refreshToken;
 
-        const expiresIn = data.expiresIn || data.expires_in || 3600;
-        this.tokenExpiresAt = new Date(Date.now() + expiresIn * 1000);
+        // KikoBooks returns expriresAt (datetime) or expiresIn (seconds)
+        if (data.expriresAt || data.expiresAt) {
+            this.tokenExpiresAt = new Date(data.expriresAt || data.expiresAt);
+        } else {
+            const expiresIn = data.expiresIn || data.expires_in || data.sessionTime
+                ? (data.sessionTime || 60) * 60
+                : 3600;
+            this.tokenExpiresAt = new Date(Date.now() + expiresIn * 1000);
+        }
     }
 
     /**
