@@ -188,10 +188,11 @@ class KikoBooksClient {
             const error = new Error(`API request failed: ${path}`) as any;
             error.status = response.status;
             error.statusText = response.statusText;
+            const bodyText = await response.text();
             try {
-                error.body = await response.json();
+                error.body = JSON.parse(bodyText);
             } catch {
-                error.body = await response.text();
+                error.body = bodyText;
             }
             throw error;
         }
@@ -219,10 +220,11 @@ class KikoBooksClient {
             const error = new Error(`API request failed: ${path}`) as any;
             error.status = response.status;
             error.statusText = response.statusText;
+            const bodyText = await response.text();
             try {
-                error.body = await response.json();
+                error.body = JSON.parse(bodyText);
             } catch {
-                error.body = await response.text();
+                error.body = bodyText;
             }
             throw error;
         }
@@ -250,10 +252,11 @@ class KikoBooksClient {
             const error = new Error(`API request failed: ${path}`) as any;
             error.status = response.status;
             error.statusText = response.statusText;
+            const bodyText = await response.text();
             try {
-                error.body = await response.json();
+                error.body = JSON.parse(bodyText);
             } catch {
-                error.body = await response.text();
+                error.body = bodyText;
             }
             throw error;
         }
@@ -280,10 +283,11 @@ class KikoBooksClient {
             const error = new Error(`API request failed: ${path}`) as any;
             error.status = response.status;
             error.statusText = response.statusText;
+            const bodyText = await response.text();
             try {
-                error.body = await response.json();
+                error.body = JSON.parse(bodyText);
             } catch {
-                error.body = await response.text();
+                error.body = bodyText;
             }
             throw error;
         }
