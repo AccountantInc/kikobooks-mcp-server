@@ -1,6 +1,8 @@
 import { config } from "dotenv";
 config();
 
+import { getClientHeaders } from "../helpers/get-client-headers.js";
+
 interface AuthTokens {
     accessToken: string;
     refreshToken?: string;
@@ -180,7 +182,7 @@ class KikoBooksClient {
             headers: {
                 Authorization: `Bearer ${this.accessToken}`,
                 "Content-Type": "application/json",
-                "User-Agent": "kikobooks-mcp-server/0.1.0",
+                ...getClientHeaders(),
             },
         });
 
@@ -211,7 +213,7 @@ class KikoBooksClient {
             headers: {
                 Authorization: `Bearer ${this.accessToken}`,
                 "Content-Type": "application/json",
-                "User-Agent": "kikobooks-mcp-server/0.1.0",
+                ...getClientHeaders(),
             },
             body: JSON.stringify(body),
         });
@@ -243,7 +245,7 @@ class KikoBooksClient {
             headers: {
                 Authorization: `Bearer ${this.accessToken}`,
                 "Content-Type": "application/json",
-                "User-Agent": "kikobooks-mcp-server/0.1.0",
+                ...getClientHeaders(),
             },
             body: JSON.stringify(body),
         });
@@ -275,7 +277,7 @@ class KikoBooksClient {
             headers: {
                 Authorization: `Bearer ${this.accessToken}`,
                 "Content-Type": "application/json",
-                "User-Agent": "kikobooks-mcp-server/0.1.0",
+                ...getClientHeaders(),
             },
         });
 
