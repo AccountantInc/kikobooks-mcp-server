@@ -4,9 +4,7 @@
 
 A **TypeScript Model Context Protocol (MCP) server** that lets AI assistants (Claude Desktop, VS Code Copilot, OpenAI agents, etc.) interact with **KikoBooks** — your bookkeeping SaaS — through natural language.
 
-Think of it as the same thing QuickBooks and Xero have built:
-- [QuickBooks Online MCP Server](https://github.com/qboapi/qbo-mcp-server) — 11 entities, CRUD + Search
-- [Xero MCP Server](https://github.com/XeroAPI/xero-mcp-server) — 57 tools, List/Create/Update/Delete
+It gives AI agents the ability to search, create, update, and manage your accounting data — accounts, invoices, bills, journal entries, payments, and more — all through a standardized MCP interface.
 
 This is **your public/external MCP server** for third-party AI integrations.
 
@@ -23,7 +21,7 @@ This is **your public/external MCP server** for third-party AI integrations.
 | **Discoverability** | MCP servers are listed on directories like [glama.ai](https://glama.ai/mcp/servers), [smithery.ai](https://smithery.ai/) — they require public repos |
 | **Trust** | Users want to inspect what an MCP server does before granting it API access |
 | **NPX distribution** | `npx @kikobooks/kikobooks-mcp-server` requires a public npm package backed by public source |
-| **Industry standard** | Both QuickBooks and Xero MCP servers are public MIT-licensed repos |
+| **Industry standard** | MCP servers for accounting platforms are public MIT-licensed repos |
 | **No secrets exposed** | The server contains zero secrets — all credentials come from environment variables at runtime |
 
 **Recommendation:** Public repo, MIT license, `.env` in `.gitignore`.
@@ -58,7 +56,7 @@ This is **your public/external MCP server** for third-party AI integrations.
                               └─────────────────────────┘
 ```
 
-### Pattern (follows QuickBooks reference)
+### Pattern
 
 | Layer | Responsibility | Example |
 |-------|---------------|---------|
@@ -216,9 +214,8 @@ kikobooks-mcp-server/
 │   └── types/
 │       ├── tool-definition.ts
 │       └── tool-response.ts
-└── _Reference/               # Keep reference implementations
-    ├── quickbooks-online-mcp-server/
-    └── xero-mcp-server/
+└── _Reference/               # Reference implementations
+    └── ...
 ```
 
 ---
@@ -301,7 +298,7 @@ Once published, users will configure it like this:
 
 ## Next Steps
 
-1. ✅ Analyze reference implementations (QuickBooks + Xero)
+1. ✅ Analyze reference implementations
 2. ✅ Analyze KikoBooks API structure
 3. ✅ Create this roadmap
 4. 🔲 Scaffold Phase 0 (project setup, client, server, types, helpers)
