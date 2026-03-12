@@ -2,11 +2,11 @@ import { kikoBooksClient } from "../clients/kikobooks-client.js";
 import { ToolResponse } from "../types/tool-response.js";
 import { formatError } from "../helpers/format-error.js";
 
-export async function deleteKikoBooksBillPayment(
+export async function voidKikoBooksBillPayment(
     paymentId: number
 ): Promise<ToolResponse<any>> {
     try {
-        const response = await kikoBooksClient.delete(`/api/VendorPayments/${paymentId}`);
+        const response = await kikoBooksClient.post(`/api/VendorPayments/${paymentId}/void`, {});
         return { result: response, isError: false, error: null };
     } catch (error) {
         return { result: null, isError: true, error: formatError(error) };

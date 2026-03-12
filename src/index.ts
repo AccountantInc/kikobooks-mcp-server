@@ -41,7 +41,7 @@ import { SearchBillsTool } from "./tools/search-bills.tool.js";
 import { GetBillTool } from "./tools/get-bill.tool.js";
 import { CreateBillTool } from "./tools/create-bill.tool.js";
 import { UpdateBillTool } from "./tools/update-bill.tool.js";
-import { DeleteBillTool } from "./tools/delete-bill.tool.js";
+import { VoidBillTool } from "./tools/void-bill.tool.js";
 
 // Journal Entry tools
 import { SearchJournalEntriesTool } from "./tools/search-journal-entries.tool.js";
@@ -54,7 +54,7 @@ import { ReverseJournalEntryTool } from "./tools/reverse-journal-entry.tool.js";
 import { SearchBillPaymentsTool } from "./tools/search-bill-payments.tool.js";
 import { GetBillPaymentTool } from "./tools/get-bill-payment.tool.js";
 import { CreateBillPaymentTool } from "./tools/create-bill-payment.tool.js";
-import { DeleteBillPaymentTool } from "./tools/delete-bill-payment.tool.js";
+import { VoidBillPaymentTool } from "./tools/void-bill-payment.tool.js";
 
 // Purchase/Expense tools
 import { SearchPurchasesTool } from "./tools/search-purchases.tool.js";
@@ -118,7 +118,7 @@ const main = async () => {
     RegisterTool(server, GetBillTool);
     RegisterTool(server, CreateBillTool);
     RegisterTool(server, UpdateBillTool);
-    RegisterTool(server, DeleteBillTool);
+    RegisterTool(server, VoidBillTool);
 
     // Journal Entries
     RegisterTool(server, SearchJournalEntriesTool);
@@ -131,7 +131,7 @@ const main = async () => {
     RegisterTool(server, SearchBillPaymentsTool);
     RegisterTool(server, GetBillPaymentTool);
     RegisterTool(server, CreateBillPaymentTool);
-    RegisterTool(server, DeleteBillPaymentTool);
+    RegisterTool(server, VoidBillPaymentTool);
 
     // Purchases / Expenses
     RegisterTool(server, SearchPurchasesTool);
