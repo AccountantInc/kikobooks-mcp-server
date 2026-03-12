@@ -9,9 +9,9 @@ A [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server for [K
 - **Invoices** — Search, create, and manage AR invoices
 - **Items** — Manage products and services
 - **Vendors** — Full CRUD with soft delete for vendor management
-- **Bills** — Full CRUD with soft delete for AP bills
+- **Bills** — Full CRUD with void for AP bills
 - **Journal Entries** — Search, create, post, and reverse GL journal entries
-- **Bill Payments** — Search, create, and delete AP payments
+- **Bill Payments** — Search, create, and void AP payments
 - **Purchases / Expenses** — Full CRUD with delete for expense transactions
 - **Customer Payments** — Search, create, and manage AR payments
 - **Credit Memos** — Search, create, and manage AR credit memos
@@ -151,7 +151,7 @@ For local development, point to the built output:
 | `get_bill` | Get full bill details including line items |
 | `create_bill` | Create a new bill |
 | `update_bill` | Update an existing bill |
-| `delete_bill` | Soft delete (deactivate) a bill |
+| `void_bill` | Void a posted bill (reverses accounting impact) |
 
 ### Journal Entries
 | Tool | Description |
@@ -168,7 +168,7 @@ For local development, point to the built output:
 | `search_bill_payments` | Search bill payments with vendor.and date filters |
 | `get_bill_payment` | Get full bill payment details |
 | `create_bill_payment` | Create a new bill payment |
-| `delete_bill_payment` | Delete a bill payment |
+| `void_bill_payment` | Void a bill payment (reverses accounting impact) |
 
 ### Purchases / Expenses
 | Tool | Description |

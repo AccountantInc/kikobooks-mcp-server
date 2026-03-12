@@ -13,9 +13,9 @@ export async function searchKikoBooksCustomers(params: {
         const response = await kikoBooksClient.get("/api/Customers", {
             search: params.search,
             page: params.page,
-            pageSize: params.pageSize,
-            sortColumn: params.sortColumn,
-            sortDirection: params.sortDirection,
+            page_size: params.pageSize,
+            sort_column: params.sortColumn,
+            sort_direction: params.sortDirection,
         });
 
         return { result: response, isError: false, error: null };

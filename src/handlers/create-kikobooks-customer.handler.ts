@@ -6,7 +6,7 @@ export async function createKikoBooksCustomer(
     customerData: any
 ): Promise<ToolResponse<any>> {
     try {
-        const response = await kikoBooksClient.post("/api/Customers", customerData);
+        const response = await kikoBooksClient.post("/api/Customers/create", customerData);
         return { result: response, isError: false, error: null };
     } catch (error) {
         return { result: null, isError: true, error: formatError(error) };
